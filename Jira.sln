@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{FA035245-0810-49FA-851F-91FC9B0D99F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2B78E369-30FA-4AE5-BADA-2ECBCC5DFCAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F99CF17F-0EE6-4978-AD3B-CF139D8878E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3C29732B-478F-4B60-AB2B-D8588BE7D4FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Domain", "Jira.Domain\Jira.Domain.csproj", "{B4C9119B-11A6-4599-A751-B20CF9608AA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4C9119B-11A6-4599-A751-B20CF9608AA5} = {FA035245-0810-49FA-851F-91FC9B0D99F5}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
