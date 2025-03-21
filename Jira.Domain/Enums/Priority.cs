@@ -2,7 +2,10 @@ using System.ComponentModel;
 
 namespace Jira.Domain.Enums;
 
-public enum ProjectPriority
+/// <summary>
+/// Priority
+/// </summary>
+public enum Priority
 {
     [Description("Низкий")]
     Low = 1,
