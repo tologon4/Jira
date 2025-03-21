@@ -27,7 +27,7 @@ public class ProjectTask
     /// <summary>
     /// User Author who created task
     /// </summary>
-    public User Author { get; set; }
+    public virtual User Author { get; set; }
     
     /// <summary>
     /// UserExecutor ID who execute task
@@ -37,7 +37,7 @@ public class ProjectTask
     /// <summary>
     /// User Executor who execute task
     /// </summary>
-    public User Executor { get; set; }
+    public virtual User Executor { get; set; }
     
     /// <summary>
     /// Task's Status
@@ -62,5 +62,5 @@ public class ProjectTask
     /// <summary>
     /// Project, where task is in
     /// </summary>
-    public Project Project { get; set; }
+    public virtual Project Project { get; set; }
 }

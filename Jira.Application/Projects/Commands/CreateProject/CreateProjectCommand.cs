@@ -1,17 +1,13 @@
-using System.ComponentModel;
+using FluentResults;
 using Jira.Domain.Enums;
-
-namespace Jira.Domain;
-/// <summary>
-/// Project
-/// </summary>
-[Description("Project")]
-public class Project
+using MediatR;
+namespace Jira.Application.Projects.Commands.CreateProject;
+public class CreateProjectCommand : IRequest<Result<int>>
 {
     /// <summary>
-    /// Project's Identification Number
+    /// CreatorUser's ID who created project
     /// </summary>
-    public int Id { get; set; }
+    public int CreatorId { get; set; }
     
     /// <summary>
     /// Project's Name
@@ -26,7 +22,7 @@ public class Project
     /// <summary>
     /// Name of Executor Company that execut this project
     /// </summary>
-    public string CompanyExecutorName {get; set;}
+    public string CompanyExecutorName { get; set; }
     
     /// <summary>
     /// Project's Started Date
@@ -39,11 +35,6 @@ public class Project
     public DateTime EndDate { get; set; }
     
     /// <summary>
-    /// Project's Edited time
-    /// </summary>
-    public DateTime EditedTime { get; set; }
-    
-    /// <summary>
     /// Project's Priority
     /// </summary>
     public Priority Priority { get; set; }
@@ -54,22 +45,7 @@ public class Project
     public int ProjectManagerId { get; set; }
     
     /// <summary>
-    /// ProjectManager of Project
+    /// Users IDs which can take part of Project
     /// </summary>
-    public virtual User ProjectManager { get; set; }
-    
-    /// <summary>
-    /// Users which can take part of Project
-    /// </summary>
-    public virtual ICollection<User>? Employees { get; set; }
-    
-    /// <summary>
-    /// CreatorUser's ID who created project
-    /// </summary>
-    public int CreatorId { get; set; }
-    
-    /// <summary>
-    /// CreatorUser who created project
-    /// </summary>
-    public virtual User Creator { get; set; }
+    public ICollection<int>? EmployeeIds { get; set; }
 }

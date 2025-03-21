@@ -4,10 +4,10 @@ namespace Jira.Domain.Enums;
 
 public enum ProjectTaskStatus
 {
-    [Description("Надо сделать")]
+    [Description("To Do")]
     ToDo = 1,
-    [Description("В процессе")]
+    [Description("In Progress")]
     InProgress,
-    [Description("Сделано")]
+    [Description("Done")]
     Done,
 }

@@ -7,10 +7,10 @@ namespace Jira.Domain.Enums;
 /// </summary>
 public enum Priority
 {
-    [Description("Низкий")]
+    [Description("Low")]
     Low = 1,
-    [Description("Средний")]
+    [Description("Medium")]
     Medium = 2,
-    [Description("Высокий")]
+    [Description("High")]
     High = 3,
 }
