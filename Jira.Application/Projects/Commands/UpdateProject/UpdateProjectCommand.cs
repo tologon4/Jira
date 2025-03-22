@@ -10,6 +10,11 @@ public class UpdateProjectCommand : IRequest<Result<string>>
     public int Id { get; set; }
     
     /// <summary>
+    /// Updating User ID
+    /// </summary>
+    public int UserId { get; set; }
+    
+    /// <summary>
     /// Project's Name
     /// </summary>
     public string ProjectName { get; set; }

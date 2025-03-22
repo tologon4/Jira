@@ -1,12 +1,11 @@
-using System.ComponentModel;
+using AutoMapper;
+using Jira.Application.Common.Mappings;
+using Jira.Domain;
 using Jira.Domain.Enums;
 
-namespace Jira.Domain;
-/// <summary>
-/// Project
-/// </summary>
-[Description("Project")]
-public class Project
+namespace Jira.Application.Projects.Queries.GetProjectDetails;
+
+public class ProjectDetailsVm : IMapWith<Project>
 {
     /// <summary>
     /// Project's Identification Number
@@ -49,11 +48,6 @@ public class Project
     public Priority Priority { get; set; }
     
     /// <summary>
-    /// ProjectManager ID of Project
-    /// </summary>
-    public int ProjectManagerId { get; set; }
-    
-    /// <summary>
     /// ProjectManager of Project
     /// </summary>
     public virtual User? ProjectManager { get; set; }
@@ -64,12 +58,23 @@ public class Project
     public virtual ICollection<User>? Employees { get; set; }
     
     /// <summary>
-    /// CreatorUser's ID who created project
-    /// </summary>
-    public int CreatorId { get; set; }
-    
-    /// <summary>
     /// CreatorUser who created project
     /// </summary>
     public virtual User? Creator { get; set; }
+
+    public void Mapping(Profile profile)
+    {
+        profile.CreateMap<Project, ProjectDetailsVm>()
+            .ForMember(vm => vm.Id, opt => opt.MapFrom(p => p.Id))
+            .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectName))
+            .ForMember(vm => vm.CompanyCustomerName, opt => opt.MapFrom(p => p.CompanyCustomerName))
+            .ForMember(vm => vm.CompanyExecutorName, opt => opt.MapFrom(p => p.CompanyExecutorName))
+            .ForMember(vm => vm.StartDate, opt => opt.MapFrom(p => p.StartDate))
+            .ForMember(vm => vm.EndDate, opt => opt.MapFrom(p => p.EndDate))
+            .ForMember(vm => vm.EditedTime, opt => opt.MapFrom(p => p.EditedTime))
+            .ForMember(vm => vm.Priority, opt => opt.MapFrom(p => p.Priority))
+            .ForMember(vm => vm.Creator, opt => opt.MapFrom(p => p.Creator))
+            .ForMember(vm => vm.Employees, opt => opt.MapFrom(p => p.Employees))
+            .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectManager));
+    }
 }

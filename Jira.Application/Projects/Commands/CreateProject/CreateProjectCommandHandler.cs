@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jira.Application.Projects.Commands.CreateProject;
 
-public class CreateProjectCommandHandler(IJiraDbContext context) : IRequestHandler<CreateProjectCommand, Result<int>>
+public class CreateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHandler<CreateProjectCommand, Result<int>>
 {
     /// <summary>
     /// Project creating command handler
@@ -20,7 +20,7 @@ public class CreateProjectCommandHandler(IJiraDbContext context) : IRequestHandl
         
         if (request.EmployeeIds != null || request.EmployeeIds.Count > 0)
         {
-            employees = await context.Users
+            employees = await dbContext.Users
                 .Where(u => request.EmployeeIds.Contains(u.Id))
                 .ToListAsync(cancellationToken);
         }
@@ -38,8 +38,8 @@ public class CreateProjectCommandHandler(IJiraDbContext context) : IRequestHandl
             Employees = employees
         };
         
-        await context.Projects.AddAsync(project, cancellationToken);
-        var result = await context.SaveChangesAsync(cancellationToken);
+        await dbContext.Projects.AddAsync(project, cancellationToken);
+        var result = await dbContext.SaveChangesAsync(cancellationToken);
         if (result <= 0) 
             Result.Fail("Creation of project failed!");
         

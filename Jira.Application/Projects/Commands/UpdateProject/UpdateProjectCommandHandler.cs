@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jira.Application.Projects.Commands.UpdateProject;
 
-public class UpdateProjectCommandHandler(IJiraDbContext context) : IRequestHandler<UpdateProjectCommand, Result<string>>
+public class UpdateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHandler<UpdateProjectCommand, Result<string>>
 {
     /// <summary>
     /// Project updating command handler
@@ -17,15 +17,17 @@ public class UpdateProjectCommandHandler(IJiraDbContext context) : IRequestHandl
     /// <returns>Result of operation</returns>
     public async Task<Result<string>> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
     {
-        var oldProject = await context.Projects
+        var oldProject = await dbContext.Projects
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
         if (oldProject == null || oldProject.Id != request.Id)
             return Result.Fail($"Project with ID {request.Id} was not found!");
+        if (oldProject.CreatorId != request.UserId || oldProject.ProjectManagerId != request.UserId)
+            return Result.Fail($"You cannot update the project with ID {request.Id}!");
         
         var newEmployees = new List<User>();
         if (request.EmployeeIds != null || request.EmployeeIds.Count > 0)
         {
-            newEmployees = await context.Users
+            newEmployees = await dbContext.Users
                 .Where(u => request.EmployeeIds.Contains(u.Id))
                 .ToListAsync(cancellationToken);
         }
@@ -38,8 +40,8 @@ public class UpdateProjectCommandHandler(IJiraDbContext context) : IRequestHandl
         oldProject.ProjectManagerId = request.ProjectManagerId;
         oldProject.Employees = newEmployees;
         
-        context.Projects.Update(oldProject);
-        var result = await context.SaveChangesAsync(cancellationToken);
+        dbContext.Projects.Update(oldProject);
+        var result = await dbContext.SaveChangesAsync(cancellationToken);
         if (result <= 0) 
             return Result.Fail("Updating of project failed!");
         return Result.Ok("Project was updated successfully!");
