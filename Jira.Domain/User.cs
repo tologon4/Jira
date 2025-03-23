@@ -19,7 +19,7 @@ public class User : IdentityUser<int>
     /// <summary>
     /// User's Middle Name
     /// </summary>
-    public string MiddleName { get; set; }
+    public string? MiddleName { get; set; }
     
     /// <summary>
     /// User's Email Address 
@@ -29,25 +29,25 @@ public class User : IdentityUser<int>
     /// <summary>
     /// URL for user's profile avatar
     /// </summary>
-    public string AvatarUrl { get; set; }
+    public string? AvatarUrl { get; set; }
     
     /// <summary>
     /// User's Projects where user is just employee 
     /// </summary>
-    public ICollection<Project> EmployeeProjects { get; set; }
+    public ICollection<Project>? EmployeeProjects { get; set; }
     
     /// <summary>
     /// User's Projects where user is ProjectManager
     /// </summary>
-    public ICollection<Project> ManageProjects { get; set; }
+    public ICollection<Project>? ManageProjects { get; set; }
     
     /// <summary>
     /// User's Projects where user created project
     /// </summary>
-    public ICollection<Project> CreatedProjects { get; set; }
+    public ICollection<Project>? CreatedProjects { get; set; }
     
     /// <summary>
     /// User's Tasks where user is executor
     /// </summary>
-    public ICollection<ProjectTask> ProjectTasks { get; set; }
+    public ICollection<ProjectTask>? ProjectTasks { get; set; }
 }

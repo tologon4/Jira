@@ -16,6 +16,8 @@ public class JiraDbContext : IdentityDbContext<User, IdentityRole<int>, int>, IJ
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new ProjectConfiguration());
+        builder.ApplyConfiguration(new ProjectTaskConfiguration());
+        builder.ApplyConfiguration(new UserConfiguration());
         base.OnModelCreating(builder);
     }
 }

@@ -1,0 +1,75 @@
+@using Jira.Domain.Enums
+@model CreateProjectDto
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="row mt-5">
+    <div class="row row-cols-1 mx-auto text-center mt-5">
+        <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+        <form asp-action="Create" asp-controller="Project" method="post" asp-anti-forgery="true" enctype="multipart/form-data">
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">Name<span class="text-danger" asp-validation-for="@Model.ProjectName"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="ProjectName" type="text" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">CustomerCompanyName<span class="text-danger" asp-validation-for="@Model.CompanyCustomerName"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="CompanyCustomerName" type="text" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">Executor<span class="text-danger" asp-validation-for="@Model.CompanyExecutorName"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="CompanyExecutorName" type="text" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">StartDate<span class="text-danger" asp-validation-for="@Model.StartDate"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="StartDate" type="date" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">EndDate<span class="text-danger" asp-validation-for="@Model.EndDate"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="EndDate" type="date" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">Priority<span class="text-danger" asp-validation-for="@Model.Priority"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="Priority" type="date" value="@Priority.Medium" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mt-3 mx-auto">
+                <div class="form_row">
+                    <label for="">ProjectManager<span class="text-danger" asp-validation-for="@Model.ProjectManagerId"></span>
+                        <input class="form-control form-control-lg  h-100" asp-for="ProjectManagerId" value="1" type="text" rows="4"></input>
+                    </label>
+                </div>
+            </div>
+            <div class="col col-3 mx-auto">
+                <button type="submit" class="btn border border-0 btn-outline-light nav-link text-start text-dark my-3">
+                    <i class=""><img class="w-25" src="~/images/add.png"/></i><span class="ms-3">Create</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

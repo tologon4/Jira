@@ -5,6 +5,8 @@ namespace Jira.Application.Common.Mappings;
 
 public class AssemblyMappingProfile : Profile
 {
+    public AssemblyMappingProfile()
+        : this(Assembly.GetExecutingAssembly()) { }
     public AssemblyMappingProfile(Assembly assembly) => ApplyMaapingsFromAssembly(assembly);
 
     private void ApplyMaapingsFromAssembly(Assembly assembly)
@@ -21,5 +23,7 @@ public class AssemblyMappingProfile : Profile
             methodInfo?.Invoke(instance, new object[] { this });
         }
     }
+    
+    
     
 }

@@ -11,9 +11,9 @@ namespace Jira.Application.Projects.Queries.GetProjectList;
 public class GetProjectListQueryHandler : IRequestHandler<GetProjectListQuery, Result<ProjectListVm>>
 {
     private readonly IJiraDbContext _dbContext;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public GetProjectListQueryHandler(IJiraDbContext dbContext, Mapper mapper)
+    public GetProjectListQueryHandler(IJiraDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;

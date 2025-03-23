@@ -57,7 +57,7 @@ public class ProjectTask
     /// <summary>
     /// Project's ID, where task is in
     /// </summary>
-    public int PriorityId { get; set; }
+    public int ProjectId { get; set; }
     
     /// <summary>
     /// Project, where task is in

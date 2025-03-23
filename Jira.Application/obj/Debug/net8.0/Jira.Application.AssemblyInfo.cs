@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Jira.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a01f3d9abf0d8ecf5ca46cae2578b6645803a17")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c3084fe5e831d912f99b9a456d2c675b9a96b49")]
 [assembly: System.Reflection.AssemblyProductAttribute("Jira.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Jira.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -8,7 +8,8 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {
     public void Configure(EntityTypeBuilder<Project> builder)
     {
-        builder.HasKey(p => p.Id);
-        builder.HasIndex(p => p.Id).IsUnique();
+        builder.HasMany<User>(p => p.Employees);
+        builder.HasOne<User>(p => p.ProjectManager);
+        builder.HasOne<User>(p => p.Creator);
     }
 }

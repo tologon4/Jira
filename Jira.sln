@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Domain", "Jira.Domain\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Application", "Jira.Application\Jira.Application.csproj", "{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Persistance", "Jira.Persistance\Jira.Persistance.csproj", "{84C0E89F-53F1-4499-A8DD-CFE6580307CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Persistence", "Jira.Persistence\Jira.Persistence.csproj", "{84C0E89F-53F1-4499-A8DD-CFE6580307CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.MVC", "Jira.MVC\Jira.MVC.csproj", "{FE227EA1-E2FE-4D21-8B94-8B19D38110D2}"
 EndProject
