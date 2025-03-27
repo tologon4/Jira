@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Jira.Persistance.DbInitializers;
 
-public class AdminInitializer
+public class AdminsInitializer
 {
     public static async Task Initialize(UserManager<User> userManager)
     {
@@ -21,6 +21,19 @@ public class AdminInitializer
             MiddleName = "Adminovich",
             PhoneNumber = "0",
         };
-        IdentityResult result = await userManager.CreateAsync(superadmin, adminPassword);
+        var admin = new User()
+        {
+            Email = "manager@manager.com",
+            UserName = "manager",
+            AvatarUrl = path,
+            LastName = "Badminov",
+            FirstName = "Badmin",
+            MiddleName = "Badminovich",
+            PhoneNumber = "1"
+        };
+        await userManager.CreateAsync(superadmin, adminPassword);
+        await userManager.AddToRoleAsync(superadmin, "director");
+        await userManager.CreateAsync(admin, adminPassword);
+        await userManager.AddToRoleAsync(admin, "pManager");
     }
 }

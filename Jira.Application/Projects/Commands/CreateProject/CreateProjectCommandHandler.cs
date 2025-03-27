@@ -28,9 +28,11 @@ public class CreateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
         var project = new Project()
         {
             ProjectName = request.ProjectName,
+            KeyName = request.KeyName,
             CompanyCustomerName = request.CompanyCustomerName,
             CompanyExecutorName = request.CompanyExecutorName,
             Priority = request.Priority,
+            ProjectType = request.ProjectType,
             ProjectManagerId = request.ProjectManagerId,
             CreatorId = request.CreatorId,
             StartDate = request.StartDate,

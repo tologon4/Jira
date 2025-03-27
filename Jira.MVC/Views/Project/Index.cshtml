@@ -1,0 +1,39 @@
+@model ICollection<Jira.Application.Projects.Queries.GetProjectList.ProjectLookupDto>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="row row-cols-2 mb-5">
+    <div class="col"><h5>Projects</h5></div>
+    <div class="col text-end">
+        <a class="btn btn-primary text-white ms-auto me-3" asp-controller="Project" asp-action="Create">Create a Project</a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Key</th>
+        <th scope="col">Type</th>
+        <th scope="col">P.Manager</th>
+        <th scope="col">Customer Company</th>
+        <th scope="col">Priority</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        @foreach (var project in @Model)
+        {
+            <td>@project.ProjectName</td>
+            <td>@project.KeyName</td>
+            <td>@project.ProjectType</td>
+            <td>@project.ProjectManagerName</td>
+            <td>@project.CompanyCustomerName</td>
+            <td>@project.Priority</td>
+        }
+    </tr>
+    </tbody>
+</table>

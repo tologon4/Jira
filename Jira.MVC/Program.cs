@@ -1,7 +1,10 @@
 using System.Reflection;
 using Jira.Application;
 using Jira.Application.Interfaces;
+using Jira.Application.Projects.Commands.CreateProject;
+using Jira.Application.Users.Commands.SignIn;
 using Jira.Domain;
+using Jira.MVC.Models;
 using Jira.Persistance;
 using Jira.Persistance.DbInitializers;
 using Microsoft.AspNetCore.Identity;
@@ -43,6 +46,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.CreateMap<RegisterVm, RegisterCommand>();
+    cfg.CreateMap<CreateProjectDto, CreateProjectCommand>();
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -51,9 +60,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
         var context = serviceProvider.GetRequiredService<JiraDbContext>();
         DbInitializer.Initialize(context);
-        await AdminInitializer.Initialize(userManager);
+        await RolesInitializer.InitializeAsync(roleManager);
+        await AdminsInitializer.Initialize(userManager);
+        await AvatarsInitializer.Initialize(context);
     }
     catch (Exception ex)
     {
@@ -78,6 +90,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

@@ -33,12 +33,14 @@ public class UpdateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
         }
 
         oldProject.ProjectName = request.ProjectName;
+        oldProject.KeyName = request.KeyName;
         oldProject.CompanyCustomerName = request.CompanyCustomerName;
         oldProject.CompanyExecutorName = request.CompanyExecutorName;
         oldProject.Priority = request.Priority;
         oldProject.EndDate = request.EndDate;
         oldProject.ProjectManagerId = request.ProjectManagerId;
         oldProject.Employees = newEmployees;
+        oldProject.ProjectType = request.ProjectType;
         
         dbContext.Projects.Update(oldProject);
         var result = await dbContext.SaveChangesAsync(cancellationToken);

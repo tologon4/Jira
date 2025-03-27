@@ -1,7 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FluentResults;
-using Jira.Application.Common.Mappings;
 using Jira.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,14 +26,13 @@ public class GetProjectListQueryHandler : IRequestHandler<GetProjectListQuery, R
     /// <returns>List of Project data</returns>
     public async Task<Result<ProjectListVm>> Handle(GetProjectListQuery request, CancellationToken cancellationToken)
     {
-        var projectsQuery = await _dbContext.Projects
+        var projects = await _dbContext.Projects
             .Where(p => (p.CreatorId == request.CreatorId || !request.CreatorId.HasValue)
             && (p.ProjectManagerId == request.ProjectManagerId || !request.ProjectManagerId.HasValue)
             && (p.Employees.Any(e => e.Id == request.EmployeeId) || !request.EmployeeId.HasValue))
             .ProjectTo<ProjectLookupDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
-        if (projectsQuery == null || projectsQuery.Count == 0)
-            return Result.Fail("No projects found");
-        return Result.Ok(new ProjectListVm(){Projects = projectsQuery});
+
+        return Result.Ok(new ProjectListVm(){Projects = projects});
     }
 }

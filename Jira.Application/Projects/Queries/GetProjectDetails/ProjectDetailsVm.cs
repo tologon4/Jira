@@ -18,6 +18,11 @@ public class ProjectDetailsVm : IMapWith<Project>
     public string ProjectName { get; set; }
     
     /// <summary>
+    /// Project's KeyName
+    /// </summary>
+    public string KeyName { get; set; }
+    
+    /// <summary>
     /// Name of Customer Company that requests this project
     /// </summary>
     public string CompanyCustomerName { get; set; }
@@ -48,6 +53,11 @@ public class ProjectDetailsVm : IMapWith<Project>
     public Priority Priority { get; set; }
     
     /// <summary>
+    /// Project's Type
+    /// </summary>
+    public ProjectType ProjectType { get; set; }
+    
+    /// <summary>
     /// ProjectManager of Project
     /// </summary>
     public virtual User? ProjectManager { get; set; }
@@ -67,12 +77,14 @@ public class ProjectDetailsVm : IMapWith<Project>
         profile.CreateMap<Project, ProjectDetailsVm>()
             .ForMember(vm => vm.Id, opt => opt.MapFrom(p => p.Id))
             .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectName))
+            .ForMember(vm => vm.KeyName, opt => opt.MapFrom(p => p.KeyName))
             .ForMember(vm => vm.CompanyCustomerName, opt => opt.MapFrom(p => p.CompanyCustomerName))
             .ForMember(vm => vm.CompanyExecutorName, opt => opt.MapFrom(p => p.CompanyExecutorName))
             .ForMember(vm => vm.StartDate, opt => opt.MapFrom(p => p.StartDate))
             .ForMember(vm => vm.EndDate, opt => opt.MapFrom(p => p.EndDate))
             .ForMember(vm => vm.EditedTime, opt => opt.MapFrom(p => p.EditedTime))
             .ForMember(vm => vm.Priority, opt => opt.MapFrom(p => p.Priority))
+            .ForMember(vm => vm.ProjectType, opt => opt.MapFrom(p => p.ProjectType))
             .ForMember(vm => vm.Creator, opt => opt.MapFrom(p => p.Creator))
             .ForMember(vm => vm.Employees, opt => opt.MapFrom(p => p.Employees))
             .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectManager));

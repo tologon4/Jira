@@ -20,6 +20,11 @@ public class UpdateProjectCommand : IRequest<Result<string>>
     public string ProjectName { get; set; }
     
     /// <summary>
+    /// Project's KeyName
+    /// </summary>
+    public string KeyName { get; set; }
+    
+    /// <summary>
     /// Name of Customer Company that requests this project
     /// </summary>
     public string CompanyCustomerName { get; set; }
@@ -38,6 +43,11 @@ public class UpdateProjectCommand : IRequest<Result<string>>
     /// Project's Priority
     /// </summary>
     public Priority Priority { get; set; }
+    
+    /// <summary>
+    /// Project's Type
+    /// </summary>
+    public ProjectType ProjectType { get; set; }
     
     /// <summary>
     /// ProjectManager ID of Project

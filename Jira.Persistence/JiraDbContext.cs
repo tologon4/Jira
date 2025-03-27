@@ -11,6 +11,7 @@ public class JiraDbContext : IdentityDbContext<User, IdentityRole<int>, int>, IJ
     public DbSet<User> Users { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectTask> ProjectTasks { get; set; }
+    public DbSet<Avatar> Avatars { get; set; }
 
     public JiraDbContext(DbContextOptions<JiraDbContext> options) : base(options){}
     protected override void OnModelCreating(ModelBuilder builder)
