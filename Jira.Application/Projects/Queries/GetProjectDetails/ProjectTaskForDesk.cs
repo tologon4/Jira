@@ -1,8 +1,11 @@
+using AutoMapper;
+using Jira.Application.Common.Mappings;
+using Jira.Domain;
 using Jira.Domain.Enums;
 
-namespace Jira.Domain;
+namespace Jira.Application.Projects.Queries.GetProjectDetails;
 
-public class ProjectTask
+public class ProjectTaskForDesk : IMapWith<ProjectTask>
 {
     /// <summary>
     /// Task's Identification Number
@@ -15,11 +18,6 @@ public class ProjectTask
     public string Title { get; set; }
     
     /// <summary>
-    /// Task's Description (comment)
-    /// </summary>
-    public string Description { get; set; }
-    
-    /// <summary>
     /// Task's number
     /// </summary>
     public string TaskNumber { get; set; }
@@ -28,11 +26,6 @@ public class ProjectTask
     /// UserAuthor ID who created task
     /// </summary>
     public int AuthorId { get; set; }
-    
-    /// <summary>
-    /// User Author who created task
-    /// </summary>
-    public virtual User Author { get; set; }
     
     /// <summary>
     /// UserExecutor ID who execute task
@@ -59,13 +52,17 @@ public class ProjectTask
     /// </summary>
     public ProjectTaskType Type { get; set; }
     
-    /// <summary>
-    /// Project's ID, where task is in
-    /// </summary>
-    public int ProjectId { get; set; }
-    
-    /// <summary>
-    /// Project, where task is in
-    /// </summary>
-    public virtual Project Project { get; set; }
+    public void Mapping(Profile profile)
+    {
+        profile.CreateMap<ProjectTask, ProjectTaskForDesk>()
+            .ForMember(vm => vm.Id, opt => opt.MapFrom(p => p.Id))
+            .ForMember(vm => vm.Title, opt => opt.MapFrom(p => p.Title))
+            .ForMember(vm => vm.Priority, opt => opt.MapFrom(p => p.Priority))
+            .ForMember(vm => vm.TaskNumber, opt => opt.MapFrom(p => p.TaskNumber))
+            .ForMember(vm => vm.Executor, opt => opt.MapFrom(p => p.Executor))
+            .ForMember(vm => vm.Status, opt => opt.MapFrom(p => p.Status))
+            .ForMember(vm => vm.Type, opt => opt.MapFrom(p => p.Type))
+            .ForMember(vm => vm.ExecutorId, opt => opt.MapFrom(p => p.ExecutorId))
+            .ForMember(vm => vm.AuthorId, opt => opt.MapFrom(p => p.AuthorId));
+    }
 }

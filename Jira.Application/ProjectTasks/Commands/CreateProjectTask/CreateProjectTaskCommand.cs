@@ -1,14 +1,11 @@
+using FluentResults;
 using Jira.Domain.Enums;
+using MediatR;
 
-namespace Jira.Domain;
+namespace Jira.Application.ProjectTasks.Commands.CreateProjectTask;
 
-public class ProjectTask
+public class CreateProjectTaskCommand : IRequest<Result<int>>
 {
-    /// <summary>
-    /// Task's Identification Number
-    /// </summary>
-    public int Id { get; set; } 
-    
     /// <summary>
     /// Task's Title (name)
     /// </summary>
@@ -20,34 +17,14 @@ public class ProjectTask
     public string Description { get; set; }
     
     /// <summary>
-    /// Task's number
-    /// </summary>
-    public string TaskNumber { get; set; }
-    
-    /// <summary>
     /// UserAuthor ID who created task
     /// </summary>
     public int AuthorId { get; set; }
     
     /// <summary>
-    /// User Author who created task
-    /// </summary>
-    public virtual User Author { get; set; }
-    
-    /// <summary>
     /// UserExecutor ID who execute task
     /// </summary>
     public int ExecutorId { get; set; }
-    
-    /// <summary>
-    /// User Executor who execute task
-    /// </summary>
-    public virtual User Executor { get; set; }
-    
-    /// <summary>
-    /// Task's Status
-    /// </summary>
-    public ProjectTaskStatus Status { get; set; }
     
     /// <summary>
     /// Task's Priority
@@ -63,9 +40,4 @@ public class ProjectTask
     /// Project's ID, where task is in
     /// </summary>
     public int ProjectId { get; set; }
-    
-    /// <summary>
-    /// Project, where task is in
-    /// </summary>
-    public virtual Project Project { get; set; }
 }

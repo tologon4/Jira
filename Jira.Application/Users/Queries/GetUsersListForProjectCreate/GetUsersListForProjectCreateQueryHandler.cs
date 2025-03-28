@@ -26,10 +26,18 @@ public class GetUsersListForProjectCreateQueryHandler : IRequestHandler<GetUsers
     /// <returns>List of user's data</returns>
     public async Task<Result<List<UserForProjectCreateVm>>> Handle(GetUsersListForProjectCreateQuery request, CancellationToken cancellationToken)
     {
-        var users = await _dbContext.Users
-            .ProjectTo<UserForProjectCreateVm>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
-
+        var users = new List<UserForProjectCreateVm>();
+        if(request.ProjectId != null)
+            users = await _dbContext.Projects
+                .Where(u => u.Id == request.ProjectId)
+                .SelectMany(u => u.Employees)
+                .ProjectTo<UserForProjectCreateVm>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        else
+            users = await _dbContext.Users
+                .ProjectTo<UserForProjectCreateVm>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        
         return Result.Ok(users);
     }
 }

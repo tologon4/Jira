@@ -69,7 +69,7 @@ public class CreateProjectDto : IMapWith<CreateProjectCommand>
     /// </summary>
     public ICollection<int>? EmployeeIds { get; set; }
     
-    public int AvatarId { get; set; }
+    public int? AvatarId { get; set; }
 
     public void Mapping(Profile profile)
     {

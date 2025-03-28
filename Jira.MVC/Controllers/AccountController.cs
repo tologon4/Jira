@@ -1,5 +1,6 @@
 using AutoMapper;
 using Jira.Application.Avatars;
+using Jira.Application.Users.Commands.Login;
 using Jira.Application.Users.Commands.SignIn;
 using Jira.Domain;
 using Jira.MVC.Models;
@@ -34,9 +35,19 @@ public class AccountController : BaseController
     /// Login 
     /// </summary>
     /// <param name="data">User login data</param>
+    [HttpPost]
     public async Task<IActionResult> Login(LoginVm data)
     {
-        return View();
+        if (!ModelState.IsValid) return View(data);
+        var command = _mapper.Map<LoginCommand>(data);
+        var result = await Mediator.Send(command);
+        if (result.IsFailed)
+        {
+            ModelState.AddModelError(string.Empty, result.Errors.First().ToString() ?? string.Empty);
+            return View(data);
+        }
+        await _signInManager.SignInAsync(result.Value, false);
+        return RedirectToAction("Index", "Project");
     }
     
     /// <summary>

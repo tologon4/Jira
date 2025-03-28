@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <Folder Include="Common\Extension\" />
+      <Folder Include="ProjectTasks\Queries\" />
     </ItemGroup>
 
 </Project>

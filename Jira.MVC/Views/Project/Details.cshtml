@@ -1,0 +1,194 @@
+@using Jira.Application.Common
+@using Jira.Domain.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Jira.Application.Projects.Queries.GetProjectDetails.ProjectDetailsVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<div class="board">
+    <div id="todo-form">
+        <a asp-controller="ProjectTask" asp-action="Create" asp-route-projectId="@Model.Id" type="button" class="btn btn-light">Add +</a>
+    </div>
+
+    <div class="lanes">
+        <div class="swim-lane" id="opened-lane">
+            <h3 class="heading">@ProjectTaskStatus.Opened.GetDisplayName()</h3>
+            @foreach (var task in @Model.ProjectTasks)
+            {
+                if (task.Status is ProjectTaskStatus.Opened)
+                {
+                    <div class="task" draggable="true" data-task-id="@task.Id">
+                        <div class="row row-cols-2">
+                            <div class="col col-6">@task.Title</div>
+                            <div class="col col-6">@task.Priority</div>
+                        </div>
+                        <div class="row row-cols-3 mt-3">
+                            <div class="col col-4"><span>@task.TaskNumber</span></div>
+                            <div class="col col-4"><span size="10">@task.Type</span></div>
+                            <div class="col col-4"><img src="@task.Executor.AvatarUrl" class="rounded-circle" height="25" width="25"/></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="swim-lane" id="todo-lane">
+            <h3 class="heading">@ProjectTaskStatus.ToDo.GetDisplayName()</h3>
+            @foreach (var task in @Model.ProjectTasks)
+            {
+                if (task.Status is ProjectTaskStatus.ToDo)
+                {
+                    <div class="task" draggable="true" data-task-id="@task.Id">
+                        <div class="row row-cols-2">
+                            <div class="col col-6">@task.Title</div>
+                            <div class="col col-6">@task.Priority</div>
+                        </div>
+                        <div class="row row-cols-3 mt-3">
+                            <div class="col col-4"><span>@task.TaskNumber</span></div>
+                            <div class="col col-4"><span size="10">@task.Type</span></div>
+                            <div class="col col-4"><img src="@task.Executor.AvatarUrl" class="rounded-circle" height="25" width="25"/></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="swim-lane" id="inProgress-lane">
+            <h3 class="heading">@ProjectTaskStatus.InProgress.GetDisplayName()</h3>
+            @foreach (var task in @Model.ProjectTasks)
+            {
+                if (task.Status is ProjectTaskStatus.InProgress)
+                {
+                    <div class="task" draggable="true" data-task-id="@task.Id">
+                        <div class="row row-cols-2">
+                            <div class="col col-6">@task.Title</div>
+                            <div class="col col-6">@task.Priority</div>
+                        </div>
+                        <div class="row row-cols-3 mt-3">
+                            <div class="col col-4"><span>@task.TaskNumber</span></div>
+                            <div class="col col-4"><span size="10">@task.Type</span></div>
+                            <div class="col col-4"><img src="@task.Executor.AvatarUrl" class="rounded-circle" height="25" width="25"/></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="swim-lane" id="done-lane">
+            <h3 class="heading">@ProjectTaskStatus.Done.GetDisplayName()</h3>
+            @foreach (var task in @Model.ProjectTasks)
+            {
+                if (task.Status is ProjectTaskStatus.Done)
+                {
+                    <div class="task" draggable="true" data-task-id="@task.Id">
+                        <div class="row row-cols-2">
+                            <div class="col col-6">@task.Title</div>
+                            <div class="col col-6">@task.Priority</div>
+                        </div>
+                        <div class="row row-cols-3 mt-3">
+                            <div class="col col-4"><span>@task.TaskNumber</span></div>
+                            <div class="col col-4"><span size="10">@task.Type</span></div>
+                            <div class="col col-4"><img src="@task.Executor.AvatarUrl" class="rounded-circle" height="25" width="25"/></div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+    const draggables = document.querySelectorAll(".task");
+    const droppables = document.querySelectorAll(".swim-lane");
+
+    draggables.forEach((task) => {
+        task.addEventListener("dragstart", () => {
+            task.classList.add("is-dragging");
+        });
+
+        task.addEventListener("dragend", () => {
+            task.classList.remove("is-dragging");
+
+            // Получаем ID задачи
+            const taskId = task.getAttribute("data-task-id");
+            if (!taskId) return;
+
+            // Определяем новый статус задачи
+            const newLane = task.closest(".swim-lane");
+            if (!newLane) return;
+
+            let newStatus;
+            switch (newLane.id) {
+                case "opened-lane":
+                    newStatus = 1;
+                    break;
+                case "todo-lane":
+                    newStatus = 2;
+                    break;
+                case "inProgress-lane":
+                    newStatus = 3;
+                    break;
+                case "done-lane":
+                    newStatus = 4;
+                    break;
+                default:
+                    return;
+            }
+
+            // Отправляем GET-запрос
+            fetch(`/ProjectTask/ChangeStatus?taskId=${taskId}&newStatus=${newStatus}`, {
+                method: "GET"
+            })
+                .catch(error => console.error("Error:", error));
+        });
+    });
+
+    droppables.forEach((zone) => {
+        zone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            zone.classList.add("dragover");
+
+            const bottomTask = insertAboveTask(zone, e.clientY);
+            const curTask = document.querySelector(".is-dragging");
+
+            if (!bottomTask) {
+                zone.appendChild(curTask);
+            } else {
+                zone.insertBefore(curTask, bottomTask);
+            }
+        });
+
+        zone.addEventListener("dragleave", () => {
+            zone.classList.remove("dragover");
+        });
+
+        zone.addEventListener("drop", () => {
+            zone.classList.remove("dragover");
+        });
+    });
+
+    const insertAboveTask = (zone, mouseY) => {
+        const els = zone.querySelectorAll(".task:not(.is-dragging)");
+
+        let closestTask = null;
+        let closestOffset = Number.NEGATIVE_INFINITY;
+
+        els.forEach((task) => {
+            const { top } = task.getBoundingClientRect();
+            const offset = mouseY - top;
+
+            if (offset < 0 && offset > closestOffset) {
+                closestOffset = offset;
+                closestTask = task;
+            }
+        });
+
+        return closestTask;
+    };
+
+</script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

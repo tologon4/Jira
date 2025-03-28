@@ -58,4 +58,9 @@ public class CreateProjectCommand : IRequest<Result<int>>
     /// Users IDs which can take part of Project
     /// </summary>
     public ICollection<int>? EmployeeIds { get; set; }
+    
+    /// <summary>
+    /// Avatar Id
+    /// </summary>
+    public int? AvatarId { get; set; }
 }

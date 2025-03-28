@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jira.Application.Projects.Queries.GetProjectDetails;
 
-public class GetProjectDetailsQueryHandler : IRequest<Result<ProjectDetailsVm>>
+public class GetProjectDetailsQueryHandler : IRequestHandler<GetProjectDetailsQuery, Result<ProjectDetailsVm>>
 {
     private readonly IJiraDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -24,12 +24,14 @@ public class GetProjectDetailsQueryHandler : IRequest<Result<ProjectDetailsVm>>
         CancellationToken cancellationToken)
     {
         var project = await _dbContext.Projects
-            .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
-        if (project == null || project.Id != request.Id)
-            return Result.Fail("Project was not found!");
-        if (project.CreatorId != request.UserId
-            || project.ProjectManagerId != request.UserId || !project.Employees.Any(u => u.Id == request.UserId))
-            return Result.Fail("You do not have access to this project!");
+            .Include(p => p.ProjectTasks)
+            .ThenInclude(t => t.Executor)
+            .FirstOrDefaultAsync(p => p.Id == request.Id 
+                && (p.CreatorId == request.UserId 
+                || p.ProjectManagerId == request.UserId
+                || p.Employees.Select(u => u.Id).Contains(request.UserId)), cancellationToken);
+        if(project == null)
+            return Result.Fail("Project not found");
         return Result.Ok(_mapper.Map<ProjectDetailsVm>(project));
     }
 

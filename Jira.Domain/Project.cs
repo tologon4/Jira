@@ -74,6 +74,11 @@ public class Project
     public virtual ICollection<User>? Employees { get; set; }
     
     /// <summary>
+    /// Project Tasks
+    /// </summary>
+    public virtual ICollection<ProjectTask>? ProjectTasks { get; set; }
+    
+    /// <summary>
     /// CreatorUser's ID who created project
     /// </summary>
     public int CreatorId { get; set; }
@@ -82,4 +87,9 @@ public class Project
     /// CreatorUser who created project
     /// </summary>
     public virtual User? Creator { get; set; }
+    
+    /// <summary>
+    /// Avatar Url 
+    /// </summary>
+    public string AvatarUrl { get; set; }
 }

@@ -20,3 +20,120 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* ---- RESET/BASIC STYLING ---- */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.board {
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+
+  background-position: center;
+  background-size: cover;
+}
+
+/* ---- FORM ---- */
+#todo-form {
+  padding: 32px 32px 0;
+}
+
+#todo-form input {
+  padding: 12px;
+  margin-right: 12px;
+  width: 225px;
+
+  border-radius: 4px;
+  border: none;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: white;
+
+  font-size: 14px;
+  outline: none;
+}
+
+#todo-form button {
+  padding: 12px 32px;
+
+  border-radius: 4px;
+  border: none;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  color: black;
+
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ---- BOARD ---- */
+.lanes {
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  gap: 16px;
+
+  padding: 24px 32px;
+
+  overflow: scroll;
+  height: 100%;
+}
+
+.heading {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #2c3034;
+}
+
+.swim-lane {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  background: #f4f4f4;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+
+  padding: 12px;
+  border-radius: 4px;
+  width: 25%;
+  min-height: 160px;
+
+  flex-shrink: 0;
+}
+
+.task {
+  background: white;
+  color: #3a3636;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+
+  padding: 12px;
+  border-radius: 4px;
+  min-height: 100px;
+  font-size: 16px;
+  cursor: move;
+}
+
+.is-dragging {
+  scale: 1.05;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: rgb(50, 50, 50);
+  color: white;
+}
+
+.swim-lane.dragover {
+  border: 2px dashed #05a8f3;
+}

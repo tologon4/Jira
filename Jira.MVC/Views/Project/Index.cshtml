@@ -12,28 +12,36 @@
     </div>
 </div>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Key</th>
-        <th scope="col">Type</th>
-        <th scope="col">P.Manager</th>
-        <th scope="col">Customer Company</th>
-        <th scope="col">Priority</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        @foreach (var project in @Model)
+@if (Model != null || Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Key</th>
+            <th scope="col">Type</th>
+            <th scope="col">P.Manager</th>
+            <th scope="col">Customer Company</th>
+            <th scope="col">Priority</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var project in Model)
         {
-            <td>@project.ProjectName</td>
-            <td>@project.KeyName</td>
-            <td>@project.ProjectType</td>
-            <td>@project.ProjectManagerName</td>
-            <td>@project.CompanyCustomerName</td>
-            <td>@project.Priority</td>
+            <tr>
+                <td>
+                    <a asp-controller="Project" asp-action="Details" class="" asp-route-projectId="@project.Id">
+                        <img src="@project.AvatarUrl" class="rounded rounded-1" height="25" width="25"/>
+                        &nbsp; @project.ProjectName
+                    </a>
+                </td>
+                <td>@project.KeyName</td>
+                <td>@project.ProjectType</td>
+                <td>@project.ProjectManagerName</td>
+                <td>@project.CompanyCustomerName</td>
+                <td>@project.Priority</td>
+            </tr>
         }
-    </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}

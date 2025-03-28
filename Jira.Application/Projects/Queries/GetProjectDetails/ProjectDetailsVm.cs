@@ -71,6 +71,11 @@ public class ProjectDetailsVm : IMapWith<Project>
     /// CreatorUser who created project
     /// </summary>
     public virtual User? Creator { get; set; }
+    
+    /// <summary>
+    /// Project's tasks
+    /// </summary>
+    public ICollection<ProjectTaskForDesk> ProjectTasks { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -87,6 +92,7 @@ public class ProjectDetailsVm : IMapWith<Project>
             .ForMember(vm => vm.ProjectType, opt => opt.MapFrom(p => p.ProjectType))
             .ForMember(vm => vm.Creator, opt => opt.MapFrom(p => p.Creator))
             .ForMember(vm => vm.Employees, opt => opt.MapFrom(p => p.Employees))
-            .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectManager));
+            .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectManager))
+            .ForMember(vm => vm.ProjectTasks, opt => opt.MapFrom(p => p.ProjectTasks));
     }
 }

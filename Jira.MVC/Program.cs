@@ -2,9 +2,12 @@ using System.Reflection;
 using Jira.Application;
 using Jira.Application.Interfaces;
 using Jira.Application.Projects.Commands.CreateProject;
+using Jira.Application.ProjectTasks.Commands.CreateProjectTask;
+using Jira.Application.Users.Commands.Login;
 using Jira.Application.Users.Commands.SignIn;
 using Jira.Domain;
 using Jira.MVC.Models;
+using Jira.MVC.Models.ProjectTaskModels;
 using Jira.Persistance;
 using Jira.Persistance.DbInitializers;
 using Microsoft.AspNetCore.Identity;
@@ -50,6 +53,8 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.CreateMap<RegisterVm, RegisterCommand>();
     cfg.CreateMap<CreateProjectDto, CreateProjectCommand>();
+    cfg.CreateMap<LoginVm, LoginCommand>();
+    cfg.CreateMap<CreateProjectTaskDto, CreateProjectTaskCommand>();
 });
 
 var app = builder.Build();

@@ -14,7 +14,7 @@
                         <div class="col col-12 border border-1 py-4 px-5">
                             <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true" id="loginForm">
                                 <div class="input-group mt-5">
-                                    <div class="validation text-danger" asp-validation-summary="ModelOnly" id="errors" onchange="checkEmailConfirm()"></div>
+                                    <div class="validation text-danger" asp-validation-summary="ModelOnly" id="errors"></div>
                                     <label for="email"><span class="text-danger" asp-validation-for="Login"></span></label>
                                     <div class="input-group">
                                         <input asp-for="Login" type="text" class="form-control" placeholder="Email or username" id="email">

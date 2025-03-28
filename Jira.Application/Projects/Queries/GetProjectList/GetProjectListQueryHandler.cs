@@ -27,12 +27,12 @@ public class GetProjectListQueryHandler : IRequestHandler<GetProjectListQuery, R
     public async Task<Result<ProjectListVm>> Handle(GetProjectListQuery request, CancellationToken cancellationToken)
     {
         var projects = await _dbContext.Projects
-            .Where(p => (p.CreatorId == request.CreatorId || !request.CreatorId.HasValue)
-            && (p.ProjectManagerId == request.ProjectManagerId || !request.ProjectManagerId.HasValue)
-            && (p.Employees.Any(e => e.Id == request.EmployeeId) || !request.EmployeeId.HasValue))
+            .Where(p => p.CreatorId == request.UserId 
+            || p.ProjectManagerId == request.UserId
+            || p.Employees.Select(u => u.Id).Contains(request.UserId))
             .ProjectTo<ProjectLookupDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-
+            .ToListAsync(cancellationToken);
+        
         return Result.Ok(new ProjectListVm(){Projects = projects});
     }
 }

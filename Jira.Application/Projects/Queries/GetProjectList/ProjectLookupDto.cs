@@ -41,6 +41,11 @@ public class ProjectLookupDto : IMapWith<Project>
     /// Project's Priority
     /// </summary>
     public Priority Priority { get; set; }
+    
+    /// <summary>
+    /// Project's avatar url
+    /// </summary>
+    public string AvatarUrl { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -51,6 +56,7 @@ public class ProjectLookupDto : IMapWith<Project>
             .ForMember(vm => vm.CompanyCustomerName, opt => opt.MapFrom(p => p.CompanyCustomerName))
             .ForMember(vm => vm.Priority, opt => opt.MapFrom(p => p.Priority))
             .ForMember(vm => vm.ProjectType, opt => opt.MapFrom(p => p.ProjectType))
-            .ForMember(vm => vm.ProjectManagerName, opt => opt.MapFrom(p => $"{p.ProjectManager.LastName} {p.ProjectManager.FirstName}"));
+            .ForMember(vm => vm.ProjectManagerName, opt => opt.MapFrom(p => $"{p.ProjectManager.LastName} {p.ProjectManager.FirstName}"))
+            .ForMember(vm => vm.AvatarUrl, opt => opt.MapFrom(p => p.AvatarUrl));
     }
 }

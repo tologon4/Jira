@@ -10,7 +10,7 @@ public class AdminsInitializer
         string adminEmail = "admin@admin.com";
         string adminUsername = "admin";
         string adminPassword = "Admin1!";
-        string path = "/userImages/defProf-ProfileN=1.png";
+        string path = "/img/avatars/pp1.png";
         var superadmin = new User()
         {
             Email = adminEmail,

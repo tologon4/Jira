@@ -5,5 +5,5 @@ namespace Jira.Application.Projects.Queries.GetProjectListForProjectCreate;
 
 public class GetUsersListForProjectCreateQuery : IRequest<Result<List<UserForProjectCreateVm>>>
 {
-    
+    public int? ProjectId { get; set; }
 }

@@ -9,7 +9,7 @@ namespace Jira.Application.Projects.Commands.CreateProject;
 public class CreateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHandler<CreateProjectCommand, Result<int>>
 {
     /// <summary>
-    /// Project creating command handler
+    /// Project creation command handler
     /// </summary>
     /// <param name="request">Project data</param>
     /// <param name="cancellationToken">CancellationToken</param>
@@ -24,7 +24,9 @@ public class CreateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
                 .Where(u => request.EmployeeIds.Contains(u.Id))
                 .ToListAsync(cancellationToken);
         }
-        
+        Random rnd = new Random();
+        var avatar = await dbContext.Avatars
+            .FirstOrDefaultAsync(a => a.Id == (request.AvatarId ?? rnd.Next(1, 13)), cancellationToken: cancellationToken);
         var project = new Project()
         {
             ProjectName = request.ProjectName,
@@ -37,7 +39,8 @@ public class CreateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
             CreatorId = request.CreatorId,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
-            Employees = employees
+            Employees = employees,
+            AvatarUrl = avatar?.Url
         };
         
         await dbContext.Projects.AddAsync(project, cancellationToken);

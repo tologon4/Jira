@@ -18,6 +18,12 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Us
         _dbContext = dbContext;
         _userManager = userManager;
     }
+    
+    /// <summary>
+    /// Registration
+    /// </summary>
+    /// <param name="request">Registration user data</param>
+    /// <param name="cancellationToken">Cancellation Token</param>
     public async Task<Result<User>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         Random rnd = new Random();
