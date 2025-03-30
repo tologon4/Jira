@@ -21,4 +21,10 @@ public static class DescriptionAttributeHelper
         }
         return string.Empty;
     }
+    
+    public static int GetEnumNum<T>(this T source)
+    {
+        return Convert.ToInt32(source);
+    }
+
 }

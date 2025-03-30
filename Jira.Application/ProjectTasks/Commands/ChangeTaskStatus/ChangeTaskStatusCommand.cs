@@ -6,6 +6,11 @@ namespace Jira.Application.ProjectTasks.Commands.ChangeStatus;
 
 public class ChangeTaskStatusCommand : IRequest<Result<string>>
 {
+    public ChangeTaskStatusCommand(int taskId, ProjectTaskStatus newStatus)
+    {
+        TaskId = taskId;
+        Status = newStatus;
+    }
     /// <summary>
     /// Task's Identification Number
     /// </summary>

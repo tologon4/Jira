@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Views\ProjectTask\" />
       <Folder Include="wwwroot\img\user\" />
     </ItemGroup>
 

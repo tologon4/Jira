@@ -27,7 +27,7 @@ public class GetUsersListForProjectCreateQueryHandler : IRequestHandler<GetUsers
     public async Task<Result<List<UserForProjectCreateVm>>> Handle(GetUsersListForProjectCreateQuery request, CancellationToken cancellationToken)
     {
         var users = new List<UserForProjectCreateVm>();
-        if(request.ProjectId != null)
+        if (request.ProjectId != null)
             users = await _dbContext.Projects
                 .Where(u => u.Id == request.ProjectId)
                 .SelectMany(u => u.Employees)

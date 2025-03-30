@@ -5,6 +5,11 @@ namespace Jira.Application.Projects.Queries.GetProjectDetails;
 
 public class GetProjectDetailsQuery : IRequest<Result<ProjectDetailsVm>>
 {
+    public GetProjectDetailsQuery(int projectId, int userId)
+    {
+        Id = projectId;
+        UserId = userId;
+    }
     /// <summary>
     /// Project's Identification Number
     /// </summary>

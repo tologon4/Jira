@@ -2,7 +2,7 @@ using FluentResults;
 using Jira.Domain.Enums;
 using MediatR;
 namespace Jira.Application.Projects.Commands.UpdateProject;
-public class UpdateProjectCommand : IRequest<Result<string>>
+public class EditProjectCommand : IRequest<Result<string>>
 {
     /// <summary>
     /// Project's Identification Number
@@ -35,6 +35,11 @@ public class UpdateProjectCommand : IRequest<Result<string>>
     public string CompanyExecutorName { get; set; }
     
     /// <summary>
+    /// Project's Started Date
+    /// </summary>
+    public DateTime StartDate { get; set; }
+    
+    /// <summary>
     /// Project's End Date
     /// </summary>
     public DateTime EndDate { get; set; }
@@ -58,4 +63,9 @@ public class UpdateProjectCommand : IRequest<Result<string>>
     /// Users IDs which can take part of Project
     /// </summary>
     public ICollection<int>? EmployeeIds { get; set; }
+       
+    /// <summary>
+    /// Avatar Id
+    /// </summary>
+    public int? AvatarId { get; set; }
 }

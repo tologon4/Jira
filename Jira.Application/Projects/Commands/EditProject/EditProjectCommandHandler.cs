@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jira.Application.Projects.Commands.UpdateProject;
 
-public class UpdateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHandler<UpdateProjectCommand, Result<string>>
+public class EditProjectCommandHandler(IJiraDbContext dbContext) : IRequestHandler<EditProjectCommand, Result<string>>
 {
     /// <summary>
     /// Project updating command handler
@@ -15,14 +15,13 @@ public class UpdateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
     /// <param name="request">Project data</param>
     /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>Result of operation</returns>
-    public async Task<Result<string>> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(EditProjectCommand request, CancellationToken cancellationToken)
     {
         var oldProject = await dbContext.Projects
+            .Include(p => p.Employees)
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
         if (oldProject == null || oldProject.Id != request.Id)
             return Result.Fail($"Project with ID {request.Id} was not found!");
-        if (oldProject.CreatorId != request.UserId || oldProject.ProjectManagerId != request.UserId)
-            return Result.Fail($"You cannot update the project with ID {request.Id}!");
         
         var newEmployees = new List<User>();
         if (request.EmployeeIds != null || request.EmployeeIds.Count > 0)
@@ -30,6 +29,8 @@ public class UpdateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
             newEmployees = await dbContext.Users
                 .Where(u => request.EmployeeIds.Contains(u.Id))
                 .ToListAsync(cancellationToken);
+            oldProject.Employees?.Clear();
+            oldProject.Employees = newEmployees;
         }
 
         oldProject.ProjectName = request.ProjectName;
@@ -38,9 +39,15 @@ public class UpdateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
         oldProject.CompanyExecutorName = request.CompanyExecutorName;
         oldProject.Priority = request.Priority;
         oldProject.EndDate = request.EndDate;
+        oldProject.EditedTime = DateTime.Now;
         oldProject.ProjectManagerId = request.ProjectManagerId;
-        oldProject.Employees = newEmployees;
         oldProject.ProjectType = request.ProjectType;
+        if (request.AvatarId != null)
+        {
+            var avatar = await dbContext.Avatars
+                .FirstOrDefaultAsync(a => a.Id == request.AvatarId, cancellationToken: cancellationToken);
+            oldProject.AvatarUrl = avatar.Url;
+        }
         
         dbContext.Projects.Update(oldProject);
         var result = await dbContext.SaveChangesAsync(cancellationToken);

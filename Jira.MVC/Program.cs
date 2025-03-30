@@ -2,7 +2,11 @@ using System.Reflection;
 using Jira.Application;
 using Jira.Application.Interfaces;
 using Jira.Application.Projects.Commands.CreateProject;
+using Jira.Application.Projects.Commands.UpdateProject;
+using Jira.Application.Projects.Queries.GetProjectForUpdate;
 using Jira.Application.ProjectTasks.Commands.CreateProjectTask;
+using Jira.Application.ProjectTasks.Commands.EditProjectTask;
+using Jira.Application.ProjectTasks.Queries.GetTaskForEdit;
 using Jira.Application.Users.Commands.Login;
 using Jira.Application.Users.Commands.SignIn;
 using Jira.Domain;
@@ -55,6 +59,11 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<CreateProjectDto, CreateProjectCommand>();
     cfg.CreateMap<LoginVm, LoginCommand>();
     cfg.CreateMap<CreateProjectTaskDto, CreateProjectTaskCommand>();
+    cfg.CreateMap<ProjectForUpdateVm, EditProjectDto>();
+    cfg.CreateMap<EditProjectDto, EditProjectCommand>();
+    cfg.CreateMap<TaskForEditVm, EditProjectTaskDto>();
+    cfg.CreateMap<EditProjectTaskDto, EditProjectTaskCommand>();
+    
 });
 
 var app = builder.Build();
@@ -90,11 +99,27 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+    var request = context.HttpContext.Request;
+
+    if (response.StatusCode == 403 || response.StatusCode == 401 || response.StatusCode == 404)
+    {
+        var referer = request.Headers["Referer"].ToString();
+        if (!string.IsNullOrEmpty(referer)) response.Redirect(referer);
+        else response.Redirect("/");
+    }
+    await Task.CompletedTask;
+});
+
+app.UseAuthentication();
 app.UseCors("AllowAll");
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Project}/{action=Index}/{id?}");
 
 app.Run();

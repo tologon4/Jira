@@ -21,6 +21,16 @@ public class AccountController : BaseController
         _mapper = mapper;
         _signInManager = signInManager;
     }
+
+    /// <summary>
+    /// User's profile page
+    /// </summary>
+    /// <param name="userId">User ID</param>
+    [HttpGet]
+    public async Task<ActionResult> Profile(int? userId)
+    {
+        return View();
+    }
     
     /// <summary>
     /// Login page

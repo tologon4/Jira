@@ -12,7 +12,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand btn btn-sm border border-0 btn-outline-light nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="navbar-brand btn btn-sm border border-0 btn-outline-light nav-link" asp-controller="Project" asp-action="Index">
                 <i><img height="25" src="~/img/Jira_Logo.svg.png"/></i>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,14 +23,14 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <button class="btn border dropdown border-0 btn-outline-light nav-link text-dark dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-                            Ваша работа
+                            Your job
                         </button>
                         <div class="dropdown-menu dropdown-menu-white" style="width: 380px">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Назначено мне</button>
-                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Недавние</button>
-                                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Проекты</button>
+                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">On me</button>
+                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Recently</button>
+                                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Tasks</button>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
@@ -48,7 +48,7 @@
                     </li>
                     <li class="nav-item dropdown ms-2">
                         <button class="btn border dropdown border-0 btn-outline-light nav-link text-dark dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-                            Проекты
+                            Projects
                         </button>
                         <div class="dropdown-menu dropdown-menu-white" style="width: 300px">
                             Some example text that's free-flowing within the dropdown menu.

@@ -1,12 +1,12 @@
 using AutoMapper;
 using Jira.Application.Common.Mappings;
-using Jira.Application.Projects.Queries.GetProjectListForProjectCreate;
+using Jira.Application.Projects.Queries.GetProjectDetails;
 using Jira.Domain;
 using Jira.Domain.Enums;
 
-namespace Jira.Application.Projects.Queries.GetProjectDetails;
+namespace Jira.Application.Projects.Queries.GetProjectForUpdate;
 
-public class ProjectDetailsVm : IMapWith<Project>
+public class ProjectForUpdateVm : IMapWith<Project>
 {
     /// <summary>
     /// Project's Identification Number
@@ -31,7 +31,7 @@ public class ProjectDetailsVm : IMapWith<Project>
     /// <summary>
     /// Name of Executor Company that execut this project
     /// </summary>
-    public string CompanyExecutorName {get; set;}
+    public string CompanyExecutorName { get; set; }
     
     /// <summary>
     /// Project's Started Date
@@ -44,11 +44,6 @@ public class ProjectDetailsVm : IMapWith<Project>
     public DateTime EndDate { get; set; }
     
     /// <summary>
-    /// Project's Edited time
-    /// </summary>
-    public DateTime EditedTime { get; set; }
-    
-    /// <summary>
     /// Project's Priority
     /// </summary>
     public Priority Priority { get; set; }
@@ -59,28 +54,18 @@ public class ProjectDetailsVm : IMapWith<Project>
     public ProjectType ProjectType { get; set; }
     
     /// <summary>
-    /// ProjectManager of Project
+    /// ProjectManager ID of Project
     /// </summary>
-    public virtual User? ProjectManager { get; set; }
+    public int ProjectManagerId { get; set; }
     
     /// <summary>
-    /// Users which can take part of Project
+    /// Users IDs which can take part of Project
     /// </summary>
-    public virtual ICollection<UserForProjectCreateVm>? Employees { get; set; }
+    public ICollection<int>? EmployeeIds { get; set; }
     
-    /// <summary>
-    /// CreatorUser who created project
-    /// </summary>
-    public virtual User? Creator { get; set; }
-    
-    /// <summary>
-    /// Project's tasks
-    /// </summary>
-    public ICollection<ProjectTaskForDesk> ProjectTasks { get; set; }
-
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Project, ProjectDetailsVm>()
+        profile.CreateMap<Project, ProjectForUpdateVm>()
             .ForMember(vm => vm.Id, opt => opt.MapFrom(p => p.Id))
             .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectName))
             .ForMember(vm => vm.KeyName, opt => opt.MapFrom(p => p.KeyName))
@@ -90,9 +75,6 @@ public class ProjectDetailsVm : IMapWith<Project>
             .ForMember(vm => vm.EndDate, opt => opt.MapFrom(p => p.EndDate))
             .ForMember(vm => vm.Priority, opt => opt.MapFrom(p => p.Priority))
             .ForMember(vm => vm.ProjectType, opt => opt.MapFrom(p => p.ProjectType))
-            .ForMember(vm => vm.Creator, opt => opt.MapFrom(p => p.Creator))
-            .ForMember(vm => vm.Employees, opt => opt.MapFrom(p => p.Employees))
-            .ForMember(vm => vm.ProjectName, opt => opt.MapFrom(p => p.ProjectManager))
-            .ForMember(vm => vm.ProjectTasks, opt => opt.MapFrom(p => p.ProjectTasks));
+            .ForMember(vm => vm.EmployeeIds, opt => opt.MapFrom(p => p.Employees.Select(u => u.Id)));
     }
 }
