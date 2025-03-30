@@ -39,6 +39,7 @@ public class CreateProjectCommandHandler(IJiraDbContext dbContext) : IRequestHan
             CreatorId = request.CreatorId,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
+            EditedTime = DateTime.Now,
             Employees = employees,
             AvatarUrl = avatar?.Url
         };

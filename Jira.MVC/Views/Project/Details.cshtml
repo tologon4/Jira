@@ -8,7 +8,7 @@
     Layout = "_Layout";
 }
 <div class="board">
-    <div class="row row-cols-3 col-8">
+    <div class="row row-cols-4 col-12">
         <div id="todo-form">
             <a id="addNewTaskBtn" type="button" class="btn text-success btn-light">Add new task +</a>
         </div>
@@ -17,6 +17,9 @@
         </div>
         <div id="todo-form">
             <a id="deleteButton" type="button" class="btn text-danger bg-danger bg-opacity-25 mt-auto me-auto">Delete project</a>
+        </div>
+        <div id="todo-form">
+            <a id="projectInfo" type="button" class="btn btn-outline-info text-primary bg-opacity-25 mt-auto me-auto">Last Update: @Model.EditedTime</a>
         </div>
     </div>
     <div class="lanes">
@@ -204,6 +207,31 @@
     </div>
 </div>
 
+<div class="modal fade" id="projectInfoModal" tabindex="-1" aria-labelledby="projectInfoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">ProjectName: <span class="text-success">@Model.ProjectName</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">KeyName: <span class="text-success">@Model.KeyName</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">ProjectType: <span class="text-success">@Model.ProjectType.GetDisplayName()</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">Last Update: <span class="text-success">@Model.EditedTime</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">Company Executor: <span class="text-success">@Model.CompanyExecutorName</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">Company Customer: <span class="text-success">@Model.CompanyCustomerName</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">Creator: <span class="text-success">@Model.Creator.LastName @Model.Creator.FirstName</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">ProjectManager: <span class="text-success">@Model.ProjectManager.LastName @Model.ProjectManager.FirstName</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">Start date: <span class="text-success">@Model.StartDate.ToString("dd/MM/yyyy")</span></div>
+                <div class="btn btn-outline-info text-secondary bg-opacity-25 mt-1 d-block">Deadline: <span class="text-success">@Model.EndDate.ToString("dd/MM/yyyy")</span></div>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-light" data-bs-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script>
 
@@ -224,6 +252,12 @@
         document.querySelector("#deleteButton").addEventListener("click", (event) => {
             event.preventDefault();
             let modal = new bootstrap.Modal(document.getElementById("deleteModal"));
+            modal.show();
+        });
+
+        document.querySelector("#projectInfo").addEventListener("click", (event) => {
+            event.preventDefault();
+            let modal = new bootstrap.Modal(document.getElementById("projectInfoModal"));
             modal.show();
         });
 

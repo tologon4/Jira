@@ -26,6 +26,8 @@ public class GetProjectDetailsQueryHandler : IRequestHandler<GetProjectDetailsQu
         var project = await _dbContext.Projects
             .Include(p => p.ProjectTasks)
                 .ThenInclude(t => t.Executor)
+            .Include(p => p.ProjectManager)
+            .Include(p => p.Creator)
             .FirstOrDefaultAsync(p => p.Id == request.Id 
                 && (p.CreatorId == request.UserId 
                 || p.ProjectManagerId == request.UserId
