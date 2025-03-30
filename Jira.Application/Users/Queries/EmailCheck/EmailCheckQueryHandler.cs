@@ -8,6 +8,8 @@ public class EmailCheckQueryHandler(IJiraDbContext dbContext) : IRequestHandler<
 {
     public async Task<bool> Handle(EmailCheckQuery request, CancellationToken cancellationToken)
     {
-        return await dbContext.Users.AnyAsync(u => u.Email == request.Email, cancellationToken: cancellationToken);
+        return await dbContext.Users
+            .AnyAsync(u => (u.Email == request.Email && request.Id == null) 
+             && !(u.Email == request.Email && u.Id == request.Id), cancellationToken: cancellationToken);
     }
 }

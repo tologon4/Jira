@@ -21,18 +21,18 @@ public class ValidationController : BaseController
     }
 
     [AcceptVerbs("GET", "POST")]
-    public IActionResult EmailValid(string Email)
+    public IActionResult EmailValid(string Email, int? Id)
     {
-        var result = Mediator.Send(new EmailCheckQuery(){Email = Email}).Result;
+        var result = Mediator.Send(new EmailCheckQuery(Email, Id)).Result;
         if(result)
             return Json("Email is already in use!");
         return Json(true);
     }
     
     [AcceptVerbs("GET", "POST")]
-    public IActionResult UserNameValid(string UserName)
+    public IActionResult UserNameValid(string UserName, int? Id)
     {
-        var result = Mediator.Send(new UserNameCheckQuery(){UserName = UserName}).Result;
+        var result = Mediator.Send(new UserNameCheckQuery(UserName, Id)).Result;
         if(result)
             return Json("UserName is already in use!");
         return Json(true);

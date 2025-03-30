@@ -1,7 +1,9 @@
 using AutoMapper;
 using Jira.Application.Avatars;
+using Jira.Application.Users.Commands.EditUser;
 using Jira.Application.Users.Commands.Login;
 using Jira.Application.Users.Commands.SignIn;
+using Jira.Application.Users.Queries.GetUserProfile;
 using Jira.Domain;
 using Jira.MVC.Models;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +31,34 @@ public class AccountController : BaseController
     [HttpGet]
     public async Task<ActionResult> Profile(int? userId)
     {
-        return View();
+        var user = Mediator.Send(new GetUserProfileQuery(userId ?? UserId)).Result.Value;
+        return View(user);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Edit(int? userId)
+    {
+        ViewBag.Avatars = Mediator.Send(new GetAllAvatarsQuery()).Result.Value;
+        var user = Mediator.Send(new GetUserProfileQuery(userId ?? UserId)).Result.Value;
+        return View(_mapper.Map<EditUserVm>(user));
+    }
+
+    /// <summary>
+    /// Edit user profile
+    /// </summary>
+    /// <param name="data">User profile data</param>
+    [HttpPost]
+    public async Task<ActionResult> Edit(EditUserVm data)
+    {
+        if (!ModelState.IsValid) return View(data);
+        var command = _mapper.Map<EditUserCommand>(data);
+        var result = await Mediator.Send(command);
+        if (result.IsFailed)
+        {
+            ModelState.AddModelError(string.Empty, result.Errors.First().ToString() ?? string.Empty);
+            return View(data);
+        }
+        return RedirectToAction("Profile", "Account", new { userId = result.Value });
     }
     
     /// <summary>
@@ -87,5 +116,12 @@ public class AccountController : BaseController
         }
         await _signInManager.SignInAsync(result.Value, false);
         return RedirectToAction("Index", "Project");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Login");
     }
 }

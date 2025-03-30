@@ -7,8 +7,10 @@ using Jira.Application.Projects.Queries.GetProjectForUpdate;
 using Jira.Application.ProjectTasks.Commands.CreateProjectTask;
 using Jira.Application.ProjectTasks.Commands.EditProjectTask;
 using Jira.Application.ProjectTasks.Queries.GetTaskForEdit;
+using Jira.Application.Users.Commands.EditUser;
 using Jira.Application.Users.Commands.Login;
 using Jira.Application.Users.Commands.SignIn;
+using Jira.Application.Users.Queries.GetUserProfile;
 using Jira.Domain;
 using Jira.MVC.Models;
 using Jira.MVC.Models.ProjectTaskModels;
@@ -63,6 +65,8 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<EditProjectDto, EditProjectCommand>();
     cfg.CreateMap<TaskForEditVm, EditProjectTaskDto>();
     cfg.CreateMap<EditProjectTaskDto, EditProjectTaskCommand>();
+    cfg.CreateMap<UserProfile, EditUserVm>();
+    cfg.CreateMap<EditUserVm, EditUserCommand>();
     
 });
 

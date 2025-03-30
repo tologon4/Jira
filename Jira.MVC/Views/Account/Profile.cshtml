@@ -1,8 +1,26 @@
-@model TModel
+@model Jira.Application.Users.Queries.GetUserProfile.UserProfile
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="row g-0 pt-5">
+    <div class="col-md-4 pb-5 text-center border-bottom">
+        <img src="@Model.AvatarUrl" width="200" height="200" class="rounded-circle mx-auto ">
+    </div>
+    <div class="col-md-8 border-bottom">
+        <div class="card-body">
+            <div class="row ">
+                <div class=" col col-3"><h5>@Model.UserName</h5></div>
+                <div class="col col-3 d-flex"><a class="my-auto btn btn-light me-auto" asp-action="Edit" asp-controller="Account">Edit</a></div>
+                <div class="col col-3 d-flex"><a class="my-auto btn btn-outline-danger me-auto" asp-action="Logout" asp-controller="Account">Logout</a></div>
+
+                <div class="col col-12 mt-4"><h5>@Model.Email</h5></div>
+                <div class="col col-12 mt-4"><h5>@Model.LastName</h5></div>
+                <div class="col col-12 mt-4"><h5>@Model.FirstName</h5></div>
+                <div class="col col-12 mt-4"><h5>@Model.MiddleName</h5></div>
+            </div>
+        </div>
+    </div>
+</div>

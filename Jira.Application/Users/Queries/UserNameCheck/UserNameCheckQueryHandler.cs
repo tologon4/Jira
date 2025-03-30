@@ -8,6 +8,8 @@ public class UserNameCheckQueryHandler(IJiraDbContext dbContext) : IRequestHandl
 {
     public async Task<bool> Handle(UserNameCheckQuery request, CancellationToken cancellationToken)
     {
-        return await dbContext.Users.AnyAsync(u => u.UserName == request.UserName, cancellationToken: cancellationToken);
+        return await dbContext.Users
+            .AnyAsync(u => (u.UserName == request.UserName && request.Id == null) 
+                           && !(u.UserName == request.UserName && u.Id == request.Id), cancellationToken: cancellationToken);
     }
 }
