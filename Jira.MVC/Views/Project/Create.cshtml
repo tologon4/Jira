@@ -1,0 +1,224 @@
+@using Jira.Application.Common
+@model CreateProjectDto
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+<style>
+    [type=radio] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* IMAGE STYLES */
+    [type=radio] + img {
+        cursor: pointer;
+    }
+
+    /* CHECKED STYLES */
+    [type=radio]:checked + img{
+        outline: 2px solid #32c2dc;
+    }
+</style>
+
+<div class="row row-cols-2 bg-white mt-5 border border-2 rounded px-2">
+    <div class="col-5 p-0 mt-5 px-4">
+        <h3>Creating a Project</h3>
+        <form asp-action="Create" asp-controller="Project" method="post" asp-anti-forgery="true">
+            <div class="px-4 mt-4">
+                <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+                <div class="mt-3">
+                    <label asp-for="ProjectName">
+                        Project name &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.ProjectName"></span>
+                    </label>
+                    <input type="text" asp-for="ProjectName" class="form-control" placeholder="Project name" aria-label="ProjectName" aria-describedby="basic-addon1">
+                </div>
+                <div class="mt-3">
+                    <label asp-for="KeyName">
+                        KeyName &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.KeyName"></span>
+                    </label>
+                    <input type="text" asp-for="KeyName" class="form-control" placeholder="KeyName" aria-label="KeyName" aria-describedby="basic-addon1">
+                </div>
+                <div class="mt-3">
+                    <label asp-for="CompanyCustomerName">
+                        Company customer &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.CompanyCustomerName"></span>
+                    </label>
+                    <input type="text" asp-for="CompanyCustomerName" class="form-control" placeholder="Company customer" aria-label="CompanyCustomerName" aria-describedby="basic-addon1">
+                </div>
+                <div class="mt-3">
+                    <label asp-for="CompanyExecutorName">
+                        Executor company &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.CompanyExecutorName"></span>
+                    </label>
+                    <input type="text" asp-for="CompanyExecutorName" class="form-control" placeholder="Executor company" aria-label="CompanyExecutorName" aria-describedby="basic-addon1">
+                </div>
+                <div class="mt-3">
+                    <label asp-for="StartDate">
+                        StartDate &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.StartDate"></span>
+                    </label>
+                    <input type="date" asp-for="StartDate" class="form-control" placeholder="StartDate" aria-label="StartDate" aria-describedby="basic-addon1">
+                </div>
+                <div class="mt-3">
+                    <label asp-for="EndDate">
+                        EndDate &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.EndDate"></span>
+                    </label>
+                    <input type="date" asp-for="EndDate" class="form-control" placeholder="EndDate" aria-label="EndDate" aria-describedby="basic-addon1">
+                </div>
+                <div class="mt-3">
+                    <label asp-for="Priority">
+                        Priority &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.Priority"></span>
+                    </label>
+                    <select asp-for="Priority" class="form-select">
+                        <option disabled="disabled" selected="selected">Choose Priority</option>
+                        @foreach (var priority in ViewBag.Priorities)
+                        {
+                            if (priority is Enum enumV)
+                            {
+                                <option value="@enumV">@enumV.GetDisplayName()</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label asp-for="ProjectType">
+                        Project Type &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.ProjectType"></span>
+                    </label>
+                    <select asp-for="ProjectType" class="form-select">
+                        <option disabled="disabled" selected="selected">Choose ProjectType</option>
+                        @foreach (var type in ViewBag.ProjectTypes)
+                        {
+                            if (type is Enum enumV)
+                            {
+                                <option value="@enumV">@enumV.GetDisplayName()</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label asp-for="ProjectManagerId">
+                        Project Manager &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.ProjectManagerId"></span>
+                    </label>
+                    <select asp-for="ProjectManagerId" class="chosen-select2 form-select">
+                        @foreach (var manager in ViewBag.Users)
+                        {
+                            <option value="@manager.Id">@manager.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label asp-for="EmployeeIds">
+                        Employees &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.EmployeeIds"></span>
+                    </label>
+                    <select name="EmployeeIds" data-placeholder="Search.." multiple class="chosen-select form-select">
+                        @foreach (var employee in ViewBag.Users)
+                        {
+                            <option value="@employee.Id">@employee.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label asp-for="AvatarId">
+                        Avatar &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.AvatarId"></span>
+                    </label>
+                    <div class="nav-item dropdown ms-2">
+                        <button class="btn border dropdown border-0 btn-light nav-link text-dark dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
+                            Avatar
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-white" style="width: 400px">
+                            <div class="row row-cols-4 p-3" id="avatars">
+                                @foreach (var avatar in ViewBag.Avatars)
+                                {
+                                    <div class="col col-3 mt-2 rounded-3">
+                                        <label>
+                                            <input asp-for="AvatarId" type="radio" name="avatarId" id="avatar_@avatar.Id" value="@avatar.Id">
+                                            <img src="@avatar.Url.ToString()" class="rounded rounded-1 border border-light" height="80" width="80" alt="Option 1">
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cols-2 mt-3">
+                    <div class="col-7 text-end">
+                        <a href="javascript:history.back()" class="btn border border-0 btn-light text-dark my-3 ms-auto">Cancel</a>
+                    </div>
+                    <div class="col-5 text-end">
+                        <button type="submit" class="btn border border-0 btn-primary text-white my-3" asp-controller="Project" asp-action="Create">Create Project</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-6 text-center">
+        <svg width="650" class="mx-auto" height="500" viewBox="0 0 720 586" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="An illustration showing a preview of the Jira project interface after the project has been created.">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M370.025 17.9079C434.256 22.6735 503.767 7.79394 556.943 40.6745C610.66 73.8893 624.33 136.807 649.809 190.907C678.228 251.252 739.504 312.537 713.872 373.89C688.153 435.452 591.852 436.828 531.607 473.835C474.196 509.102 439.255 580.301 370.025 585.109C300.167 589.961 241.321 540.007 189.315 497.609C141.938 458.986 117.437 406.978 88.5028 355.603C53.1707 292.869 -12.2428 234.212 1.99552 165.015C16.473 94.6556 86.9077 40.1425 159.374 11.1767C225.234 -15.1486 298.243 12.582 370.025 17.9079Z" fill="#2684FF"></path><g filter="url(#create-project-shadow)"><rect x="20" y="80" width="640" height="400" rx="8" fill="var(--ds-surface, #FFFFFF)" stroke="var(--ds-background-accent-gray-subtler, #DCDFE4)" stroke-width="1" filter="create-project-shadow"></rect></g><rect x="42" y="142" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="148" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="42" y="178" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="184" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="42" y="214" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="220" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="42" y="250" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="256" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="42" y="286" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="292" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="42" y="322" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="328" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="42" y="358" width="20" height="20" rx="10" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="78" y="364" width="100" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="40" y="100" width="24" height="24" rx="6" fill="#2684FF"></rect><rect x="204" y="80" width="2" height="400" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="239" y="148" width="16" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="271" y="132" width="2" height="334" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="285" y="148" width="64" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="361" y="132" width="2" height="334" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="377" y="147" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="513" y="132" width="2" height="334" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="527" y="148" width="64" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="603" y="132" width="2" height="334" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="613" y="148" width="24" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="239" y="186" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="189" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="186" width="64" height="16" rx="3" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="616" y="184" width="20" height="20" rx="10" fill="var(--ds-background-accent-red-subtler, #FFD5D2)"></rect><rect x="239" y="228" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="231" width="70" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="228" width="64" height="16" rx="3" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="616" y="226" width="20" height="20" rx="10" fill="var(--ds-background-accent-blue-subtler, #CCE0FF)"></rect><rect x="239" y="270" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="273" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="270" width="64" height="16" rx="3" fill="var(--ds-background-accent-blue-subtler, #CCE0FF)"></rect><rect x="616" y="268" width="20" height="20" rx="10" fill="var(--ds-background-accent-blue-subtler, #CCE0FF)"></rect><rect x="239" y="312" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="315" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="312" width="64" height="16" rx="3" fill="var(--ds-background-accent-blue-subtler, #CCE0FF)"></rect><rect x="616" y="310" width="20" height="20" rx="10" fill="var(--ds-background-accent-orange-subtler, #FEDEC8)"></rect><rect x="239" y="354" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="357" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="354" width="64" height="16" rx="3" fill="var(--ds-background-accent-blue-subtler, #CCE0FF)"></rect><rect x="616" y="352" width="20" height="20" rx="10" fill="var(--ds-background-accent-red-subtler, #FFD5D2)"></rect><rect x="239" y="396" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="399" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="396" width="64" height="16" rx="3" fill="var(--ds-background-accent-green-subtler, #BAF3DB)"></rect><rect x="616" y="394" width="20" height="20" rx="10" fill="var(--ds-background-accent-blue-subtler, #CCE0FF)"></rect><rect x="239" y="438" width="16" height="16" rx="4" fill="var(--ds-background-accent-blue-subtle, #579DFF)"></rect><rect x="377" y="441" width="120" height="8" rx="4" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect><rect x="527" y="438" width="64" height="16" rx="3" fill="var(--ds-background-accent-green-subtler, #BAF3DB)"></rect><rect x="616" y="436" width="20" height="20" rx="10" fill="var(--ds-background-accent-orange-subtler, #FEDEC8)"></rect><rect x="224" y="102" width="180" height="16" rx="8" fill="var(--ds-background-accent-gray-subtler, #DCDFE4)"></rect>
+            <foreignObject x="522" y="95" width="120" height="30">
+                <div class="css-1hu5e11">
+                    <ul aria-label="avatar group" class="_1e0c1txw _19121cl4 _vwz4kb7n _2mzuagmp _6rthze3t _1pfhze3t _12l2u2gc _ahbqze3t _85i5ze3t _1q51ze3t _y4tize3t _bozgze3t">
+                        <li class="_6rthze3t _1pfhze3t _12l2x0bf _ahbqze3t">
+                            <div role="presentation">
+                                <div class="_12ji1r31 _1qu2glyw _12y3idpf _1e0c1o8l _kqswh2mm" style="z-index: 5;"><span class="_vchh18uv _bfhkcxp3 _16qs1nhn _19itglyw _12ji1r31 _1qu2glyw _12y31o36 _1reo15vq _18m915vq _v564ieh6 _1e0c1txw _kqswh2mm _4cvr1fhb _1bah1h6o _2lx21bp4 _80om1kw7 _6rthv77o _1pfhv77o _12l2v77o _ahbqv77o _85i5ze3t _1q51ze3t _y4tize3t _bozgze3t _t9ec1aqe _9v7aze3t _qc5o1p41 _z0ai1osq _18postnw _1hfk18uv _aetrf705 _1peqidpf _11fnglyw _1ejjglyw _mizu194a _1ah3v77o _ra3xnqa1 _128m1bk5 _4dave4h9 _2rko1q5u _14mj1q5u _1bsb1tcg _4t3i1tcg" style="--avatar-bg-color: #FFFFFF; --avatar-box-shadow: 0 0 0 2px #FFFFFF"><img src="https://secure.gravatar.com/avatar/36ff9360593719e230ae3a3937968c2a?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FA-4.png" alt="" aria-hidden="true" data-vc="avatar-image" data-ssr-placeholder-ignored="true" class="_16jlkb7n _1o9zkb7n _i0dl1osq _1e0c1txw _1bsb1osq _4t3i1osq _2rko1q5u"></span></div></div></li></ul></div></foreignObject><rect x="226" y="172" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="226" y="214" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="226" y="256" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="226" y="298" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="226" y="340" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="226" y="382" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect><rect x="226" y="424" width="420" height="2" fill="var(--ds-border-disabled, #091E420F)"></rect>
+            <foreignObject width="122" height="18" x="72" y="103" class="_1bsb1hdq _4t3i2nrh" style="--_6f8077: 122px; --_1neqek2: 18px;">
+                <p width="122" height="18" class="_1reo15vq _18m915vq _1bsb1hdq _4t3i2nrh _o5721q9c _1bto1l2s _11c82smr _k48pmoej" style="--_6f8077: 122px; --_1neqek2: 18px;">Project Without</p></foreignObject><text font-size="14" x="280" y="198" fill="var(--ds-text-subtle, #44546F)">TL-1</text><text font-size="14" x="280" y="240" fill="var(--ds-text-subtle, #44546F)">TL-2</text><text font-size="14" x="280" y="282" fill="var(--ds-text-subtle, #44546F)">TL-3</text><text font-size="14" x="280" y="324" fill="var(--ds-text-subtle, #44546F)">TL-4</text><text font-size="14" x="280" y="366" fill="var(--ds-text-subtle, #44546F)">TL-5</text><text font-size="14" x="280" y="408" fill="var(--ds-text-subtle, #44546F)">TL-6</text><text font-size="14" x="280" y="450" fill="var(--ds-text-subtle, #44546F)">TL-7</text>
+            <foreignObject width="165" height="15" x="30" y="440" class="_1bsb1hdq _4t3i2nrh" style="--_6f8077: 165px; --_1neqek2: 15px;">
+                <p width="165" height="15" class="_1reo15vq _18m915vq _1bsb1hdq _4t3i2nrh _o5721q9c _1bto1l2s _11c81o8v _k48pi7a9 _y3gn1h6o _syaz131l" style="--_6f8077: 165px; --_1neqek2: 15px;">Project</p></foreignObject><defs><filter id="create-project-shadow"><feDropShadow dx="2" dy="2" stdDeviation="10" flood-color="#000" flood-opacity="0.2"></feDropShadow></filter></defs>
+        </svg>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("input[name='avatarId']").on("change", function() {
+                const selectedAvatar = $("input[name='avatarId']:checked").val(); // Получаем выбранный аватар
+
+                if (selectedAvatar) {
+                    $("#AvatarId").val(selectedAvatar);
+                }
+            });
+            
+            $(".chosen-select").chosen({
+                no_results_text: "Oops, nothing found!",
+                width: "100%" 
+            });
+
+            $(".chosen-select").on('change', function () {
+                const selectedOptions = $(this).val(); 
+
+                if (!selectedOptions || selectedOptions.length === 0) {
+                    $(this).trigger('chosen:updated');
+                }
+            });
+
+            $(".chosen-select").siblings('.chosen-container').find('.chosen-search input').on('keydown', function(e) {
+                if (e.key === "Backspace") {
+                    $(this).trigger('chosen:updated'); // Обновляем при удалении символов
+                }
+            });
+
+            $(".chosen-select2").chosen({
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+
+            $(".chosen-select2").on('change', function () {
+                const selectedOption = $(this).val(); 
+
+                if (!selectedOption) {
+                    $(this).trigger('chosen:updated');
+                }
+            });
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+}

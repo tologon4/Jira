@@ -10,6 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3C29732B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Domain", "Jira.Domain\Jira.Domain.csproj", "{B4C9119B-11A6-4599-A751-B20CF9608AA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Application", "Jira.Application\Jira.Application.csproj", "{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.Persistence", "Jira.Persistence\Jira.Persistence.csproj", "{84C0E89F-53F1-4499-A8DD-CFE6580307CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jira.MVC", "Jira.MVC\Jira.MVC.csproj", "{FE227EA1-E2FE-4D21-8B94-8B19D38110D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +23,26 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B4C9119B-11A6-4599-A751-B20CF9608AA5} = {FA035245-0810-49FA-851F-91FC9B0D99F5}
+		{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C} = {FA035245-0810-49FA-851F-91FC9B0D99F5}
+		{84C0E89F-53F1-4499-A8DD-CFE6580307CC} = {2B78E369-30FA-4AE5-BADA-2ECBCC5DFCAA}
+		{FE227EA1-E2FE-4D21-8B94-8B19D38110D2} = {F99CF17F-0EE6-4978-AD3B-CF139D8878E9}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4C9119B-11A6-4599-A751-B20CF9608AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9F2A625-5E8F-441C-8EA3-FAE80CB7FF8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84C0E89F-53F1-4499-A8DD-CFE6580307CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84C0E89F-53F1-4499-A8DD-CFE6580307CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84C0E89F-53F1-4499-A8DD-CFE6580307CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84C0E89F-53F1-4499-A8DD-CFE6580307CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE227EA1-E2FE-4D21-8B94-8B19D38110D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE227EA1-E2FE-4D21-8B94-8B19D38110D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE227EA1-E2FE-4D21-8B94-8B19D38110D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE227EA1-E2FE-4D21-8B94-8B19D38110D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

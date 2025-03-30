@@ -1,0 +1,127 @@
+@model EditUserVm
+@{
+    ViewBag.Title = "Jira";
+    Layout = "_Layout";
+}
+
+<style>
+    [type=radio] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* IMAGE STYLES */
+    [type=radio] + img {
+        cursor: pointer;
+    }
+
+    /* CHECKED STYLES */
+    [type=radio]:checked + img{
+        outline: 2px solid #32c2dc;
+    }
+</style>
+
+<div class="container">
+    <div class="row row-cols-1 mt-5">
+        <div class="col col-8 mx-auto">
+            <div class="row row-cols-2">
+                <div class="col col-6 mx-auto text-center">
+                    <div class="row">
+                        <div class="col col-12 bg-white border border-1 py-4 px-5">
+                            <form asp-action="Edit" asp-controller="Account" asp-anti-forgery="true">
+                                <div class="input-group mt-5">
+                                    <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+                                    <label for="email"><span class="text-danger" asp-validation-for="Email"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="Email" type="email" class="form-control" placeholder="Email" id="email">
+                                    </div>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <label for="userName"><span class="text-danger" asp-validation-for="UserName"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="UserName" type="text" class="form-control" placeholder="UserName" id="userName">
+                                    </div>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <label for="lastName"><span class="text-danger" asp-validation-for="LastName"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="LastName" type="text" class="form-control" placeholder="LastName" id="lastName">
+                                    </div>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <label for="firstName"><span class="text-danger" asp-validation-for="FirstName"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="FirstName" type="text" class="form-control" placeholder="FirstName" id="firstName">
+                                    </div>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <label for="middleName"><span class="text-danger" asp-validation-for="MiddleName"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="MiddleName" type="text" class="form-control" placeholder="MiddleName" id="middleName">
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <label asp-for="AvatarId">
+                                        Choose avatar &nbsp; &nbsp;<span class="text-danger" asp-validation-for="@Model.AvatarId"></span>
+                                    </label>
+                                    <div class="nav-item dropdown ms-2">
+                                        <button class="btn border dropdown border-0 btn-light nav-link w-100 text-dark dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Avatar
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-white" style="width: 400px">
+                                            <div class="row row-cols-4 p-3" id="avatars">
+                                                @foreach (var avatar in ViewBag.Avatars)
+                                                {
+                                                    <div class="col col-3 mt-2 rounded-3">
+                                                        <label>
+                                                            <input asp-for="AvatarId" type="radio" name="avatarId" id="avatar_@avatar.Id" value="@avatar.Id">
+                                                            <img src="@avatar.Url.ToString()" class="rounded rounded-1 border border-light" height="80" width="80" alt="Option 1">
+                                                        </label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <label for="pass"><span class="text-danger" asp-validation-for="Password"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" id="pass">
+                                    </div>
+                                </div>
+                                <div class="input-group mt-2">
+                                    <label for="conPass"><span class="text-danger" asp-validation-for="ConfirmPassword"></span></label>
+                                    <div class="input-group">
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="ConfPassword" id="conPass">
+                                    </div>
+                                </div>
+                                <input asp-for="Id" value="@Model.Id" type="hidden"/>
+                                <button type="submit" class="btn btn-primary rounded-2 w-100 mt-3">Save changes</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function (){
+            $("input[name='avatarId']").on("change", function() {
+                const selectedAvatar = $("input[name='avatarId']:checked").val();
+
+                if (selectedAvatar) {
+                    $("#AvatarId").val(selectedAvatar);
+                }
+            });
+        });
+    </script>
+    
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
